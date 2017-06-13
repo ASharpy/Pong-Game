@@ -1,9 +1,32 @@
 #include <Windows.h>
 #include <SFML/Graphics.hpp>
+#include <string>
+#include <iostream>
+#include "Ball.h"
+#include "Paddle.h"
+std::string getExecutableFolder()
+{
+	char buffer[MAX_PATH];
+	GetModuleFileName(NULL, buffer, MAX_PATH);
+	char *pos;
+	if (pos = strrchr(buffer, '\\'))
+	{
+		*pos = 0;
+	}
+
+	return buffer;
+}
+
+void update(float deltaTime)
+{
+
+}
+
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow)
 {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "Top of Window Text");
+	sf::Clock deltaClock;
 
     while (window.isOpen())
     {
@@ -14,22 +37,21 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine
                 window.close();
         }
 
+		sf::Time deltaTime = deltaClock.restart();
+		deltaTime.asSeconds();
         window.clear();
    
 		//Draw Shit in this
-		sf::Texture texture;
-		if (!texture.loadFromFile("Fireball.png"))
+		sf::Texture fireball;
+		if (!fireball.loadFromFile(getExecutableFolder() + "\\resources\\Textures\\Fireball.png"))
 		{
-			throw;
+			std::cout<<"dadad";
 		}
 
 		sf::Sprite sprite;
-		sprite.setTexture(texture);
+		sprite.setTexture(fireball);
 
 		window.draw(sprite);
-
-		sprite.setScale(sf::Vector2f(400.0f, 1.0f));
-		sprite.scale(sf::Vector2f(0.1f, 0.1f));
         window.display();
     }
 
